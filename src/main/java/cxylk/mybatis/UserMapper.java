@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 2021/3/11 23:47
  **/
 public interface UserMapper {
-    @Select({" select * from user where id=#{1}"})
+    @Select({" select * from user where id=#{0}"})
     User selectById(Integer id);
 
 
@@ -32,9 +32,9 @@ public interface UserMapper {
 
     int editUser(User user);
 
-    @Update("update  users set name=#{arg1} where id=#{arg0}")
+    @Update("update  user set name=#{arg1} where id=#{arg0}")
     int setName(Integer id, String name);
 
-    @Delete("delete from users where id=#{id}")
+    @Delete("delete from user where id=#{id}")
     int deleteUser(Integer id);
 }
