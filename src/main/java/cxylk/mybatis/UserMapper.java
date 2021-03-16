@@ -12,6 +12,7 @@ import java.util.List;
  * @Author likui
  * @Date 2021/3/11 23:47
  **/
+@CacheNamespace
 public interface UserMapper {
     @Select({" select * from user where id=#{0}"})
     User selectById(Integer id);
