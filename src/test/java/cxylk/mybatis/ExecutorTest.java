@@ -1,5 +1,6 @@
 package cxylk.mybatis;
 
+import cxylk.mybatis.bean.User;
 import org.apache.ibatis.executor.*;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.*;
@@ -91,5 +92,34 @@ public class ExecutorTest {
         //降低调用复杂性
         List<Object> list = sqlSession.selectList("cxylk.mybatis.UserMapper.selectById", 1);
         System.out.println(list.get(0));
+    }
+
+    @Test
+    public void sessionByReuseTest(){
+        //指定执行器为可重用
+        SqlSession sqlSession=sqlSessionFactory.openSession(ExecutorType.REUSE,true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        //执行两个相同的sql语句，只会编译一次
+        mapper.selectById(1);
+        mapper.selectById2(2);
+    }
+
+    @Test
+    public void sessionByBatchTest(){
+        //指定执行器为批处理
+        SqlSession sqlSession=sqlSessionFactory.openSession(ExecutorType.BATCH,true);
+        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+        User user=new User();
+        user.setAge(20);
+        user.setName("lk01");
+        //1.mapperstatement相同  2.sql相同  3.必须是连续的， 这样才会采用同一个jdbc statement
+        mapper.setName(1,"lk0");//单独采用一个statement
+        mapper.addUser(user);
+        mapper.addUser(user);
+        mapper.addUser(user);//这三个会采用同一个statement
+        mapper.setName(2,"lk1");
+        //必须要执行flushStatement才会生效
+        List<BatchResult> batchResults = sqlSession.flushStatements();
+        System.out.println(batchResults.size());
     }
 }

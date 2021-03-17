@@ -14,12 +14,12 @@ import java.util.List;
  **/
 @CacheNamespace
 public interface UserMapper {
-    @Select({" select * from user where id=#{0}"})
+    @Select({"select * from user where id=#{0}"})
     User selectById(Integer id);
 
 
-    @Select({" select * from user where id=#{1}"})
-    User selectByid3(Integer id);
+    @Select({"select * from user where id=#{0}"})
+    User selectById2(Integer id);
 
     @Select({" select * from user where name='${name}'"})
     @Options(statementType = StatementType.PREPARED)

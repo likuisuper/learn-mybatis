@@ -13,9 +13,18 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private Integer age;
+    private String sex;
     private String email;
     private String phoneNumber;
     private Date createdTime;
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
 
     public Integer getId() {
         return id;
@@ -71,6 +80,7 @@ public class User implements Serializable {
         sb.append("id=").append(id);
         sb.append(", name='").append(name).append('\'');
         sb.append(", age=").append(age);
+        sb.append(",sex=").append(sex);
         sb.append(", email='").append(email).append('\'');
         sb.append(", phoneNumber='").append(phoneNumber).append('\'');
         sb.append(", createdTime=").append(createdTime);
