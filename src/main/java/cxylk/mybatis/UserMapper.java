@@ -15,6 +15,7 @@ import java.util.List;
 @CacheNamespace
 public interface UserMapper {
     @Select({"select * from user where id=#{0}"})
+    @Options(flushCache = Options.FlushCachePolicy.TRUE)
     User selectById(Integer id);
 
 
