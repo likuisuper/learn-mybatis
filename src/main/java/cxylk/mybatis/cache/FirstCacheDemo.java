@@ -2,13 +2,19 @@ package cxylk.mybatis.cache;
 
 import cxylk.mybatis.UserMapper;
 import cxylk.mybatis.bean.User;
+import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -22,9 +28,10 @@ public class FirstCacheDemo {
     private SqlSession sqlSession;
 
     @Before
-    public void init(){
+    public void init() throws IOException {
+        InputStream in = FirstCacheDemo.class.getResourceAsStream("/mybatis-config.xml");
         SqlSessionFactoryBuilder builder=new SqlSessionFactoryBuilder();
-        sessionFactory=builder.build(FirstCacheDemo.class.getResourceAsStream("/mybatis-config.xml"));
+        sessionFactory=builder.build(in);
         sqlSession=sessionFactory.openSession();
     }
 
@@ -77,7 +84,23 @@ public class FirstCacheDemo {
     public void test3(){
         UserMapper mapper = sqlSession.getMapper(UserMapper.class);
         User user1 = mapper.selectById2(1);
-        User user2 = mapper.selectById2(1);
+        User user2 = mapper.selectById2(2);
         System.out.println(user1==user2);
+    }
+
+    /**
+     * mybatis与spring集成，一级缓存失效。其实不是失效，而是spring每次都要打开一次会话
+     * 解决办事，开启事务，让会话都在一个事务中
+     */
+    @Test
+    public void testSpring(){
+        ClassPathXmlApplicationContext applicationContext=new ClassPathXmlApplicationContext("spring.xml");
+        UserMapper userMapper = applicationContext.getBean(UserMapper.class);
+        DataSourceTransactionManager manager = (DataSourceTransactionManager) applicationContext.getBean("txManager");
+        //手动开启事务
+        manager.getTransaction(new DefaultTransactionDefinition());
+        User user1 = userMapper.selectById2(1);
+        User user2 = userMapper.selectById2(1);
+        System.out.println(user1==user2);//输出true
     }
 }
