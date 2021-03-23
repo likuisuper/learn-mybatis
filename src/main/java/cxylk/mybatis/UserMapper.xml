@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cxylk.mybatis.UserMapper">
+    <!--<cache/>-->
+    <!--    <cache/>-->
+    <parameterMap id="paramter_user" type="cxylk.mybatis.bean.User">
+        <parameter property="name" javaType="string"/>
+    </parameterMap>
+    <resultMap id="result_user" type="cxylk.mybatis.bean.User" autoMapping="true">
+        <id column="id" property="id"/>
+        <result column="name" property="name" jdbcType="VARCHAR" javaType="String"/>
+        <result column="create_time" property="createTime" jdbcType="DATETIMEOFFSET" javaType="date"/>
+    </resultMap>
+<!--    <cache-ref namespace="cxylk.mybatis.UserMapper"/>-->
+    <select id="selectByUser" resultMap="result_user" parameterMap="paramter_user">
+        select * from user where 1=1
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="name!=null">
+            and name=#{name}
+        </if>
+        <if test="age!=null">
+            and age=#{age}
+        </if>
+
+    </select>
+
+    <update id="editUser" parameterType="cxylk.mybatis.bean.User">
+        update user set
+        name=#{name}
+        <if test="age!=null">
+            ,
+            age=#{age}
+        </if>
+        <if test="sex!=null">
+            ,
+            sex=#{sex}
+        </if>
+        <if test="phoneNumber!=null">
+            ,
+            phone_number=#{phoneNumber}
+        </if>
+        <if test="email!=null">
+            ,
+            email=#{email}
+        </if>
+        where id=#{id}
+    </update>
+
+</mapper>

@@ -1,7 +1,10 @@
 package cxylk.mybatis;
 
 import cxylk.mybatis.bean.User;
+import cxylk.mybatis.cache.DiskCache;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.cache.decorators.FifoCache;
+import org.apache.ibatis.cache.decorators.LruCache;
 import org.apache.ibatis.mapping.StatementType;
 
 import java.util.List;
@@ -15,7 +18,6 @@ import java.util.List;
 @CacheNamespace
 public interface UserMapper {
     @Select({"select * from user where id=#{0}"})
-    @Options(flushCache = Options.FlushCachePolicy.TRUE)
     User selectById(Integer id);
 
 
