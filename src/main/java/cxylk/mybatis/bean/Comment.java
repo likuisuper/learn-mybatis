@@ -13,6 +13,7 @@ public class Comment implements Serializable {
     private Integer blogId;
     private String body;
     private User user;
+    private Blog blog;
 
     public String getId() {
         return id;
@@ -44,5 +45,13 @@ public class Comment implements Serializable {
 
     public void setBlogId(Integer blogId) {
         this.blogId = blogId;
+    }
+
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
     }
 }

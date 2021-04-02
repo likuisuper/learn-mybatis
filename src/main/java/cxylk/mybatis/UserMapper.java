@@ -24,9 +24,15 @@ public interface UserMapper {
     @Select({"select * from user where id=#{0}"})
     User selectById2(Integer id);
 
+    @Select({"select * from user"})
+    User selectById3();
+
     @Select({" select * from user where name='${name}'"})
     @Options(statementType = StatementType.PREPARED)
     List<User> selectByName(User user);
+
+    @Select({"select * from user where name=#{name} or age=#{arg1}"})
+    User selectByNameOrAge(@Param("name") String name, Integer age);
 
     List<User> selectByUser(User user);
 
