@@ -2,13 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cxylk.mybatis.BlogMapper">
     <resultMap id="blogMap" type="blog">
-        <result column="title" property="title"/>
-        <collection property="comments" column="id" select="selectCommentsByBlogId"/>
+        <result column="id" property="id"/>
+        <collection property="comments" column="id" select="selectCommentsByBlogId" fetchType="lazy"/>
     </resultMap>
     <resultMap id="commentsMap" type="comment">
         <association property="blog" column="blog_id" select="selectBlogById"/>
     </resultMap>
-    <select id="selectCommentsByBlogId" resultMap="commentsMap">
+<!--    <select id="selectCommentsByBlogId" resultMap="commentsMap">-->
+<!--        select * from comment where blog_id=#{blogId}-->
+<!--    </select>-->
+    <select id="selectCommentsByBlogId" resultType="comment">
         select * from comment where blog_id=#{blogId}
     </select>
     <select id="selectBlogById" resultMap="blogMap">

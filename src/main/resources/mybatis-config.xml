@@ -9,6 +9,10 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <setting name="defaultExecutorType" value="REUSE"/>
+<!--        <setting name="lazyLoadingEnabled" value="true"/>-->
+<!--        <setting name="aggressiveLazyLoading" value="true"/>-->
+<!--        <setting name="lazyLoadTriggerMethods" value="clone"/>-->
+        <setting name="configurationFactory" value="cxylk.mybatis.ConfigurationFactory"/>
 <!--        <setting name="localCacheScope" value="STATEMENT"/>-->
     </settings>
     <typeAliases>

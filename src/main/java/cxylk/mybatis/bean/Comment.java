@@ -54,4 +54,16 @@ public class Comment implements Serializable {
     public void setBlog(Blog blog) {
         this.blog = blog;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Comment{");
+        sb.append("id='").append(id).append('\'');
+        sb.append(", blogId=").append(blogId);
+        sb.append(", body='").append(body).append('\'');
+        sb.append(", user=").append(user);
+        sb.append(", blog=").append(blog);
+        sb.append('}');
+        return sb.toString();
+    }
 }
